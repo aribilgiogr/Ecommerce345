@@ -13,5 +13,6 @@ namespace Core.Concretes.Entities
         public string ContactEmail { get; set; } = null!;
         public decimal CommissionRate { get; set; }
         public bool Verified { get; set; } = false;
+        public virtual ICollection<Product> Products { get; set; } = [];
     }
 }

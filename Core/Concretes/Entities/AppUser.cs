@@ -9,5 +9,9 @@ namespace Core.Concretes.Entities
         public bool Active { get; set; } = true;
         public bool Deleted { get; set; } = false;
         public UserType UserType { get; set; }
+
+        public virtual Admin? AdminProfile { get; set; }
+        public virtual Customer? CustomerProfile { get; set; }
+        public virtual Store? StoreProfile { get; set; }
     }
 }
