@@ -18,5 +18,74 @@ namespace Data.Contexts
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<ProductImage> ProductImages { get; set; }
         public virtual DbSet<ProductFeature> ProductFeatures { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            #region Birebir ilişkiler (Kimlik ve Profiller)
+            builder.Entity<Admin>()
+                   .HasOne(a => a.AppUser)
+                   .WithOne(u => u.AdminProfile)
+                   .HasForeignKey<Admin>(a => a.AppUserId)
+                   .OnDelete(DeleteBehavior.Cascade); // AppUser silinirse profil de silinecektir.
+
+            builder.Entity<Customer>()
+                   .HasOne(c => c.AppUser)
+                   .WithOne(u => u.CustomerProfile)
+                   .HasForeignKey<Customer>(c => c.AppUserId)
+                   .OnDelete(DeleteBehavior.Cascade); // AppUser silinirse profil de silinecektir.
+
+            builder.Entity<Store>()
+                   .HasOne(s => s.AppUser)
+                   .WithOne(u => u.StoreProfile)
+                   .HasForeignKey<Store>(s => s.AppUserId)
+                   .OnDelete(DeleteBehavior.Cascade); // AppUser silinirse profil de silinecektir.
+            #endregion
+
+            #region E-Ticaret ilişkileri
+            // Kategori -> AltKategori
+            builder.Entity<Category>()
+                .HasOne(c => c.ParentCategory)
+                .WithMany(c => c.SubCategories)
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.Restrict); // AltKategori bulunduran Kategoriler silinemez.
+
+            // Ürün -> Marka
+            builder.Entity<Product>()
+                .HasOne(p => p.Brand)
+                .WithMany(b => b.Products)
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Ürün -> Kategori
+            builder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Ürün -> Mağaza
+            builder.Entity<Product>()
+                .HasOne(p => p.Store)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.StoreId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Ürün Görseli -> Ürün
+            builder.Entity<ProductImage>()
+                .HasOne(pi => pi.Product)
+                .WithMany(p => p.Images)
+                .HasForeignKey(pi => pi.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Ürün Özelliği -> Ürün
+            builder.Entity<ProductFeature>()
+                .HasOne(pf => pf.Product)
+                .WithMany(p => p.Features)
+                .HasForeignKey(pf => pf.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+            #endregion
+        }
     }
 }
