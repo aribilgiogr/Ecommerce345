@@ -6,7 +6,7 @@ namespace Data.Contexts
 {
     public class ShopContext : IdentityDbContext<AppUser>
     {
-        public ShopContext(DbContextOptions options) : base(options)
+        public ShopContext(DbContextOptions<ShopContext> options) : base(options)
         {
         }
 
