@@ -1,0 +1,29 @@
+﻿@using Core.Concretes.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a asp-action="index" asp-controller="account" class="nav-link text-dark">Merhaba, @User.Identity!.Name</a>
+        </li>
+        <li class="nav-item">
+            <form method="post" asp-action="logout" asp-controller="account">
+                <button type="submit" class="btn btn-link border-0">Çıkış Yap</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a asp-action="login" asp-controller="account" class="nav-link text-dark">Merhaba, Giriş Yapın</a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="registerCustomer" asp-controller="account" class="nav-link text-dark">Müşteri Olun</a>
+        </li>
+        <li class="nav-item">
+            <a asp-action="registerStore" asp-controller="account" class="nav-link text-dark">Mağaza Açın</a>
+        </li>
+    }
+</ul>

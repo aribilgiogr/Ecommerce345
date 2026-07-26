@@ -1,0 +1,68 @@
+@{
+    ViewData["Title"] = "Profil Sayfası";
+}
+
+<div style="min-height: 100vh; background: linear-gradient(135deg, #F0F9FB 0%, #FFF5E6 100%); padding: 3rem 0;">
+    <div class="container">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <!-- Başlık Kartı -->
+            <div style="background: linear-gradient(135deg, #4ECDC4 0%, #45B8B0 100%); 
+                        border-radius: 16px; padding: 3rem 2rem; text-align: center; 
+                        box-shadow: 0 10px 30px rgba(78, 205, 196, 0.15); margin-bottom: 2rem;">
+                <h1 style="color: white; margin: 0; font-size: 2.5rem; font-weight: 700;">
+                    Hoş Geldiniz
+                </h1>
+                <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 1.1rem;">
+                    Profil Sayfanız
+                </p>
+            </div>
+
+            <!-- İçerik Kartı -->
+            <div style="background: white; border-radius: 12px; padding: 2rem; 
+                        box-shadow: 0 4px 20px rgba(78, 205, 196, 0.1); 
+                        border-top: 4px solid #4ECDC4;">
+                <h2 style="color: #45B8B0; font-size: 1.5rem; margin-top: 0; margin-bottom: 1.5rem;">
+                    Profil Yönetimi
+                </h2>
+                
+                <p style="color: #666; line-height: 1.8; margin-bottom: 2rem;">
+                    Hesabınızı yönetmek ve güncellemek için bu sayfayı kullanabilirsiniz. 
+                    Ayrıca aşağıdaki linkler aracılığıyla giriş yapabilir veya yeni hesap oluşturabilirsiniz.
+                </p>
+
+                <!-- Butonlar -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <a href="/Account/Login" style="padding: 0.8rem 2rem; background: linear-gradient(135deg, #4ECDC4 0%, #45B8B0 100%); 
+                                                     color: white; border: none; border-radius: 8px; 
+                                                     text-decoration: none; font-weight: 600; font-size: 1rem;
+                                                     box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+                                                     transition: transform 0.2s; cursor: pointer;"
+                       onmouseover="this.style.transform='translateY(-2px)'" 
+                       onmouseout="this.style.transform='translateY(0)'">
+                        🔓 Giriş Yap
+                    </a>
+                    
+                    <a href="/Account/RegisterCustomer" style="padding: 0.8rem 2rem; background: linear-gradient(135deg, #7FD8E7 0%, #4ECDC4 100%); 
+                                                              color: white; border: none; border-radius: 8px; 
+                                                              text-decoration: none; font-weight: 600; font-size: 1rem;
+                                                              box-shadow: 0 4px 15px rgba(127, 216, 231, 0.3);
+                                                              transition: transform 0.2s; cursor: pointer;"
+                       onmouseover="this.style.transform='translateY(-2px)'" 
+                       onmouseout="this.style.transform='translateY(0)'">
+                        👤 Müşteri Kayıt
+                    </a>
+                    
+                    <a href="/Account/RegisterStore" style="padding: 0.8rem 2rem; background: linear-gradient(135deg, #FFF5A0 0%, #FFFACD 100%); 
+                                                           color: #666; border: none; border-radius: 8px; 
+                                                           text-decoration: none; font-weight: 600; font-size: 1rem;
+                                                           box-shadow: 0 4px 15px rgba(255, 250, 205, 0.5);
+                                                           transition: transform 0.2s; cursor: pointer;"
+                       onmouseover="this.style.transform='translateY(-2px)'" 
+                       onmouseout="this.style.transform='translateY(0)'">
+                        🏪 Mağaza Kayıt
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
