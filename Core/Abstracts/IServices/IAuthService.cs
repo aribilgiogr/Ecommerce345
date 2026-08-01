@@ -1,4 +1,4 @@
-﻿using Core.Concretes.DTOs;
+﻿using Core.Concretes.DTOs.Auth;
 
 namespace Core.Abstracts.IServices
 {

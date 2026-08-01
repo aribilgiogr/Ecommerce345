@@ -1,163 +1,41 @@
-@using Core.Concretes.DTOs
-@model RegisterCustomerDto
+﻿@model RegisterCustomerDto
 @{
     ViewData["Title"] = "Müşteri Kayıt Formu";
+    Layout = "_AuthFormLayout";
 }
-
-<div style="min-height: 100vh; background: linear-gradient(135deg, #F0F9FB 0%, #FFF5E6 100%); 
-            padding: 2rem;">
-    <div class="container">
-        <div style="max-width: 500px; margin: 0 auto;">
-            <!-- Başlık -->
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <h1 style="color: #45B8B0; font-size: 2rem; margin: 0; font-weight: 700;">
-                    Müşteri Kayıt
-                </h1>
-                <p style="color: #999; margin: 0.5rem 0 0 0; font-size: 0.95rem;">
-                    Yeni bir hesap oluşturun ve alışverişe başlayın
-                </p>
-            </div>
-
-            <!-- Form Kartı -->
-            <div style="background: white; border-radius: 16px; padding: 2.5rem; 
-                        box-shadow: 0 20px 60px rgba(78, 205, 196, 0.15);
-                        border-top: 5px solid #7FD8E7;">
-                
-                <form asp-action="registerCustomer" asp-controller="account" method="post">
-                    @Html.AntiForgeryToken()
-                    
-                    <!-- Validation Summary -->
-                    <div asp-validation-summary="ModelOnly" style="background: #FFE5E5; color: #C33; 
-                                                                   padding: 0.8rem; border-radius: 8px; 
-                                                                   margin-bottom: 1.5rem; font-size: 0.9rem;
-                                                                   border-left: 4px solid #C33; display: none;"
-                         id="validationSummary"></div>
-                    <script>
-                        if (document.querySelector('.field-validation-error')) {
-                            document.getElementById('validationSummary').style.display = 'block';
-                        }
-                    </script>
-
-                    <!-- İsim ve Soyisim -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <!-- İsim -->
-                        <div>
-                            <label asp-for="FirstName" style="display: block; color: #45B8B0; font-weight: 600; 
-                                                              margin-bottom: 0.5rem; font-size: 0.9rem;">
-                                👤 İsim
-                            </label>
-                            <input asp-for="FirstName" class="form-control" type="text"
-                                   placeholder="İsim"
-                                   style="width: 100%; padding: 0.75rem; border: 2px solid #E8F4F8; 
-                                          border-radius: 8px; font-size: 0.9rem; transition: all 0.3s;
-                                          font-family: inherit; box-sizing: border-box;"
-                                   onfocus="this.style.borderColor='#7FD8E7'; this.style.boxShadow='0 0 0 3px rgba(127,216,231,0.1)'"
-                                   onblur="this.style.borderColor='#E8F4F8'; this.style.boxShadow='none'" />
-                            <span asp-validation-for="FirstName" style="color: #E74C3C; font-size: 0.8rem; 
-                                                                        display: block; margin-top: 0.3rem;"></span>
-                        </div>
-
-                        <!-- Soyisim -->
-                        <div>
-                            <label asp-for="LastName" style="display: block; color: #45B8B0; font-weight: 600; 
-                                                             margin-bottom: 0.5rem; font-size: 0.9rem;">
-                                👥 Soyisim
-                            </label>
-                            <input asp-for="LastName" class="form-control" type="text"
-                                   placeholder="Soyisim"
-                                   style="width: 100%; padding: 0.75rem; border: 2px solid #E8F4F8; 
-                                          border-radius: 8px; font-size: 0.9rem; transition: all 0.3s;
-                                          font-family: inherit; box-sizing: border-box;"
-                                   onfocus="this.style.borderColor='#7FD8E7'; this.style.boxShadow='0 0 0 3px rgba(127,216,231,0.1)'"
-                                   onblur="this.style.borderColor='#E8F4F8'; this.style.boxShadow='none'" />
-                            <span asp-validation-for="LastName" style="color: #E74C3C; font-size: 0.8rem; 
-                                                                       display: block; margin-top: 0.3rem;"></span>
-                        </div>
-                    </div>
-
-                    <!-- Eposta Alanı -->
-                    <div style="margin-bottom: 1.5rem;">
-                        <label asp-for="Email" style="display: block; color: #45B8B0; font-weight: 600; 
-                                                      margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            📧 Eposta Adresi
-                        </label>
-                        <input asp-for="Email" class="form-control" type="email"
-                               placeholder="ornek@email.com"
-                               style="width: 100%; padding: 0.75rem; border: 2px solid #E8F4F8; 
-                                      border-radius: 8px; font-size: 0.9rem; transition: all 0.3s;
-                                      font-family: inherit;"
-                               onfocus="this.style.borderColor='#7FD8E7'; this.style.boxShadow='0 0 0 3px rgba(127,216,231,0.1)'"
-                               onblur="this.style.borderColor='#E8F4F8'; this.style.boxShadow='none'" />
-                        <span asp-validation-for="Email" style="color: #E74C3C; font-size: 0.8rem; 
-                                                                display: block; margin-top: 0.3rem;"></span>
-                    </div>
-
-                    <!-- Parola Alanı -->
-                    <div style="margin-bottom: 1.5rem;">
-                        <label asp-for="Password" style="display: block; color: #45B8B0; font-weight: 600; 
-                                                        margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            🔐 Parola
-                        </label>
-                        <input asp-for="Password" class="form-control" type="password"
-                               placeholder="En az 6 karakter"
-                               style="width: 100%; padding: 0.75rem; border: 2px solid #E8F4F8; 
-                                      border-radius: 8px; font-size: 0.9rem; transition: all 0.3s;
-                                      font-family: inherit;"
-                               onfocus="this.style.borderColor='#7FD8E7'; this.style.boxShadow='0 0 0 3px rgba(127,216,231,0.1)'"
-                               onblur="this.style.borderColor='#E8F4F8'; this.style.boxShadow='none'" />
-                        <span asp-validation-for="Password" style="color: #E74C3C; font-size: 0.8rem; 
-                                                                   display: block; margin-top: 0.3rem;"></span>
-                    </div>
-
-                    <!-- Parola Onayla Alanı -->
-                    <div style="margin-bottom: 2rem;">
-                        <label asp-for="ConfirmPassword" style="display: block; color: #45B8B0; font-weight: 600; 
-                                                               margin-bottom: 0.5rem; font-size: 0.9rem;">
-                            🔒 Parola Onayla
-                        </label>
-                        <input asp-for="ConfirmPassword" class="form-control" type="password"
-                               placeholder="Parolayı tekrar giriniz"
-                               style="width: 100%; padding: 0.75rem; border: 2px solid #E8F4F8; 
-                                      border-radius: 8px; font-size: 0.9rem; transition: all 0.3s;
-                                      font-family: inherit;"
-                               onfocus="this.style.borderColor='#7FD8E7'; this.style.boxShadow='0 0 0 3px rgba(127,216,231,0.1)'"
-                               onblur="this.style.borderColor='#E8F4F8'; this.style.boxShadow='none'" />
-                        <span asp-validation-for="ConfirmPassword" style="color: #E74C3C; font-size: 0.8rem; 
-                                                                          display: block; margin-top: 0.3rem;"></span>
-                    </div>
-
-                    <!-- Kayıt Butonu -->
-                    <button type="submit" style="width: 100%; padding: 0.9rem; 
-                                                background: linear-gradient(135deg, #7FD8E7 0%, #4ECDC4 100%);
-                                                color: white; border: none; border-radius: 8px;
-                                                font-weight: 600; font-size: 1rem; cursor: pointer;
-                                                box-shadow: 0 8px 25px rgba(127, 216, 231, 0.3);
-                                                transition: all 0.3s;"
-                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 12px 35px rgba(127, 216, 231, 0.4)'"
-                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 25px rgba(127, 216, 231, 0.3)'">
-                        Kayıt Ol
-                    </button>
-                </form>
-
-                <!-- Giriş Linki -->
-                <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; 
-                            border-top: 1px solid #F0F0F0;">
-                    <p style="color: #999; margin: 0; font-size: 0.9rem;">
-                        Zaten hesabınız var mı? 
-                        <a href="/Account/Login" style="color: #4ECDC4; text-decoration: none; 
-                                                       font-weight: 600; transition: color 0.3s;"
-                           onmouseover="this.style.color='#45B8B0'" 
-                           onmouseout="this.style.color='#4ECDC4'">
-                            Giriş Yapın
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Alt Bilgi -->
-            <p style="text-align: center; color: #AAA; font-size: 0.8rem; margin-top: 2rem;">
-                Kayıt olarak, <a href="#" style="color: #4ECDC4; text-decoration: none;">Şartlar ve Koşullar</a>'ı kabul etmiş olursunuz.
-            </p>
-        </div>
-    </div>
+<div class="form-floating mb-3">
+    <input asp-for="FirstName" class="form-control" />
+    <label asp-for="FirstName"></label>
+    <span class="text-danger" asp-validation-for="FirstName"></span>
 </div>
+
+<div class="form-floating mb-3">
+    <input asp-for="LastName" class="form-control" />
+    <label asp-for="LastName"></label>
+    <span class="text-danger" asp-validation-for="LastName"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input asp-for="Email" class="form-control" />
+    <label asp-for="Email"></label>
+    <span class="text-danger" asp-validation-for="Email"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input asp-for="Password" class="form-control" />
+    <label asp-for="Password"></label>
+    <span class="text-danger" asp-validation-for="Password"></span>
+</div>
+
+<div class="form-floating mb-3">
+    <input asp-for="ConfirmPassword" class="form-control" />
+    <label asp-for="ConfirmPassword"></label>
+    <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+</div>
+
+<button type="submit" class="btn btn-primary w-100 mb-5">Kayıt Ol</button>
+<hr />
+<p class="text-center text-muted small">
+    Zaten bir hesabınız var mı?
+    <a asp-controller="Account" asp-action="Login" class="link-success text-decoration-none fw-bold">Giriş Yapın!</a>
+</p>

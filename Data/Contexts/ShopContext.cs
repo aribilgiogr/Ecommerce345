@@ -86,6 +86,20 @@ namespace Data.Contexts
                 .HasForeignKey(pf => pf.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
+
+            #region AutoInclude
+            builder.Entity<AppUser>()
+                .Navigation(u => u.AdminProfile)
+                .AutoInclude();
+
+            builder.Entity<AppUser>()
+                .Navigation(u => u.CustomerProfile)
+                .AutoInclude();
+
+            builder.Entity<AppUser>()
+                .Navigation(u => u.StoreProfile)
+                .AutoInclude();
+            #endregion
         }
     }
 }

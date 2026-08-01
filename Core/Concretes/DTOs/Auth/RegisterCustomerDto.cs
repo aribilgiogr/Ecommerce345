@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Core.Concretes.DTOs
+namespace Core.Concretes.DTOs.Auth
 {
-    public class RegisterAdminDto
+    public class RegisterCustomerDto
     {
-        [Display(Name = "İsim", Prompt = "İsim")]
+        [Display(Name ="İsim",Prompt="İsim")]
         [Required(ErrorMessage = "İsim zorunludur!")]
         public string FirstName { get; set; } = null!;
 
@@ -25,7 +25,7 @@ namespace Core.Concretes.DTOs
         [Display(Name = "Parola Onayla", Prompt = "Parola Onayla")]
         [Required(ErrorMessage = "Parola Onaylama zorunludur!")]
         [DataType(DataType.Password, ErrorMessage = "Şifre formatınız hatalı!")]
-        [Compare("Password", ErrorMessage = "Parola girişlerinin uyuşmuyor!")]
+        [Compare("Password",ErrorMessage ="Parola girişlerinin uyuşmuyor!")]
         public string ConfirmPassword { get; set; } = null!;
     }
 }
