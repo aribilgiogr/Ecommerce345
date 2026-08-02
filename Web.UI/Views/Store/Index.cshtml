@@ -1,0 +1,41 @@
+﻿@model IEnumerable<StoreProductListDto>
+@{
+    ViewData["Title"] = "Mağaza Ürünleri";
+}
+
+<h2>Mağaza Ürünleri</h2>
+<a asp-action="createProduct" asp-controller="store" class="btn btn-primary btn-sm">
+    Yeni Ürün Ekle
+</a>
+<hr />
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Stok Kodu (SKU)</th>
+            <th>Ad</th>
+            <th>Fiyat</th>
+            <th>Stok Durumu</th>
+            <th>Marka</th>
+            <th>Kategori</th>
+            <th>Güncellenme Tarihi</th>
+            <th>Durumu</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SKU</td>
+                <td>@item.Name</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@(item.Stock > 0 ? item.Stock : "Stok yok")</td>
+                <td>@item.BrandName</td>
+                <td>@item.CategoryName</td>
+                <td>@item.UpdatedAt</td>
+                <td>@(item.Active ? "Satışta" : "Satışta değil")</td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
