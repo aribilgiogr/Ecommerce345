@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Concretes.DTOs;
+using Core.Concretes.DTOs.Product;
 using Core.Concretes.Entities;
 
 namespace Business
@@ -8,7 +8,14 @@ namespace Business
     {
         public MapProfiles()
         {
+            // CreateDto -> Entity
+            CreateMap<CreateProductDto, Product>();
 
+            // Entity -> ListDto
+            CreateMap<Product, StoreProductListDto>();
+
+            // Entity <-> UpdateDto
+            CreateMap<Product, UpdateProductDto>().ReverseMap();
         }
     }
 }
