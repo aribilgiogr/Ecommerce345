@@ -28,7 +28,8 @@ namespace Business
             // Servisler
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IStoreProductService, StoreProductService>();
-
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
     }

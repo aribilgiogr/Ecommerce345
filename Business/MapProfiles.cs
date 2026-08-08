@@ -10,6 +10,8 @@ namespace Business
         {
             // CreateDto -> Entity
             CreateMap<CreateProductDto, Product>();
+            CreateMap<CreateCategoryDto, Category>();
+            CreateMap<CreateBrandDto, Brand>();
 
             // Entity -> ListDto
             CreateMap<Product, StoreProductListDto>()
@@ -17,8 +19,14 @@ namespace Business
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt ?? src.CreatedAt))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
 
+            CreateMap<Category, CategoryListDto>();
+            CreateMap<Brand, BrandListDto>();
+
+
             // Entity <-> UpdateDto
             CreateMap<Product, UpdateProductDto>().ReverseMap();
+            CreateMap<Category, UpdateCategoryDto>().ReverseMap();
+            CreateMap<Brand, UpdateBrandDto>().ReverseMap();
         }
     }
 }
