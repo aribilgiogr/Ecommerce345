@@ -8,5 +8,6 @@ namespace Core.Abstracts.IServices
         Task<bool> CreateBrandAsync(CreateBrandDto createBrandDto);
         Task<bool> UpdateBrandAsync(UpdateBrandDto updateBrandDto);
         Task<bool> DeleteBrandAsync(int brandId);
+        Task<UpdateBrandDto?> GetBrandByIdAsync(int brandId);
     }
 }

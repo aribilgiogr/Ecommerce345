@@ -20,13 +20,20 @@ namespace Business.Services
         public async Task<bool> DeleteBrandAsync(int brandId)
         {
             var repo = unitOfWork.Repository<Brand>();
-            if(await repo.AnyAsync(x=>x.Id == brandId))
+            if (await repo.AnyAsync(x => x.Id == brandId))
             {
                 repo.DeleteOne(brandId);
                 int rows = await unitOfWork.CommitAsync();
                 return rows > 0;
             }
             return false;
+        }
+
+        public async Task<UpdateBrandDto?> GetBrandByIdAsync(int brandId)
+        {
+            var repo = unitOfWork.Repository<Brand>();
+            var brand = await repo.ReadByIdAsync(brandId);
+            return brand == null ? null : mapper.Map<UpdateBrandDto>(brand);
         }
 
         public async Task<IEnumerable<BrandListDto>> GetBrandsAsync()

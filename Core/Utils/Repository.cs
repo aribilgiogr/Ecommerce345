@@ -6,10 +6,10 @@ namespace Core.Utils
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        protected readonly DbContext _context;
-        protected readonly DbSet<T> _set;
+        private readonly DbContext _context;
+        private readonly DbSet<T> _set;
 
-        protected Repository(DbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             _set = _context.Set<T>();

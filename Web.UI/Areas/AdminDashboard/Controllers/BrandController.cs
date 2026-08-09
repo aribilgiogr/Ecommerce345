@@ -1,4 +1,5 @@
 ﻿using Core.Abstracts.IServices;
+using Core.Concretes.DTOs.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.UI.Areas.AdminDashboard.Controllers
@@ -21,58 +22,50 @@ namespace Web.UI.Areas.AdminDashboard.Controllers
         // POST: BrandController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateBrandDto model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await service.CreateBrandAsync(model);
+                if (result)
+                {
+                    return RedirectToAction("index");
+                }
+                ModelState.AddModelError(string.Empty, "Marka eklenemedi!");
             }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
 
         // GET: BrandController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var brand = await service.GetBrandByIdAsync(id);
+            if (brand == null) return NotFound();
+            return View(brand);
         }
 
         // POST: BrandController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, UpdateBrandDto model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await service.UpdateBrandAsync(model);
+                if (result)
+                {
+                    return RedirectToAction("index");
+                }
+                ModelState.AddModelError(string.Empty, "Marka güncellenemedi!");
             }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
 
-        // GET: BrandController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: BrandController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = await service.DeleteBrandAsync(id);
+            return RedirectToAction("index");
         }
     }
 }
