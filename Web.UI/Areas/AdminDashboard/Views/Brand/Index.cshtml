@@ -1,0 +1,46 @@
+﻿@using Core.Concretes.DTOs.Product
+@model IEnumerable<BrandListDto>
+@{
+    ViewData["Title"] = "Kayıtlı Marka Listesi";
+}
+<h2>@ViewData["Title"]</h2>
+<a asp-action="create" asp-controller="brand" class="btn btn-primary btn-sm">Yeni Marka Ekle</a>
+<hr />
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Marka Adı</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var brand in Model)
+            {
+                <tr>
+                    <td>
+                        @if(brand.LogoUrl != null)
+                        {
+                            <img src="@brand.LogoUrl" alt="@brand.Name" class="img-thumbnail" />
+                        }
+                    </td>
+                    <td>@brand.Name</td>
+                    <td>
+                        <a asp-action="edit" asp-controller="brand" asp-route-id="@brand.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                        <a asp-action="delete" asp-controller="brand" asp-route-id="@brand.Id" class="btn btn-danger btn-sm">Sil</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="2" class="text-center">
+                    <h6 class="text-muted">Kayıt marka bulunamadı.</h6>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
