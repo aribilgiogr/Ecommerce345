@@ -1,20 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Abstracts.IServices;
+using Core.Concretes.DTOs.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.UI.Areas.AdminDashboard.Controllers
 {
-    public class CategoryController : Controller
+    [Area("AdminDashboard")]
+    public class CategoryController(ICategoryService service) : Controller
     {
         // GET: CategoryController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
-        }
-
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return View(await service.GetCategoriesAsync());
         }
 
         // GET: CategoryController/Create
@@ -26,58 +22,51 @@ namespace Web.UI.Areas.AdminDashboard.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateCategoryDto model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await service.CreateCategoryAsync(model);
+                if (result)
+                {
+                    return RedirectToAction("index");
+                }
+                ModelState.AddModelError(string.Empty, "Kategori eklenemedi!");
             }
-            catch
-            {
-                return View();
-            }
+            return View(model);
         }
 
         // GET: CategoryController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var category = await service.GetCategoryByIdAsync(id);
+            if (category == null) return NotFound();
+            return View(category);
         }
 
         // POST: CategoryController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, UpdateCategoryDto  model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var result = await service.UpdateCategoryAsync(model);
+                if (result)
+                {
+                    return RedirectToAction("index");
+                }
+                ModelState.AddModelError(string.Empty, "Kategori güncellenemedi!");
             }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CategoryController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            return View(model);
         }
 
         // POST: CategoryController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = await service.DeleteCategoryAsync(id);
+            return RedirectToAction("index");
         }
     }
 }

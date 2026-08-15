@@ -36,6 +36,13 @@ namespace Business.Services
             return mapper.Map<IEnumerable<CategoryListDto>>(categories);
         }
 
+        public async Task<UpdateCategoryDto?> GetCategoryByIdAsync(int categoryId)
+        {
+            var repo = unitOfWork.Repository<Category>();
+            var category = await repo.ReadByIdAsync(categoryId);
+            return category == null ? null : mapper.Map<UpdateCategoryDto>(category);
+        }
+
         public async Task<bool> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
             var repo = unitOfWork.Repository<Category>();

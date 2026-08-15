@@ -8,5 +8,6 @@ namespace Core.Abstracts.IServices
         Task<bool> CreateCategoryAsync(CreateCategoryDto createCategoryDto);
         Task<bool> UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
         Task<bool> DeleteCategoryAsync(int categoryId);
+        Task<UpdateCategoryDto?> GetCategoryByIdAsync(int categoryId);
     }
 }

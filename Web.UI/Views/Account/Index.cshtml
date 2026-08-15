@@ -13,5 +13,8 @@
     else if (user.UserType == UserType.StoreOwner)
     {
         <text>@user.StoreProfile!.StoreName Mağazası Yöneticisi</text>
+        <a asp-action="index" asp-controller="store" class="btn btn-outline-dark btn-sm rounded-pill">
+            Mağaza Ürünleri
+        </a>
     }
 </h1>
