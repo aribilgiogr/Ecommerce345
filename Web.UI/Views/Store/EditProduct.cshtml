@@ -1,6 +1,6 @@
-﻿@model CreateProductDto
+﻿@model UpdateProductDto
 @{
-    ViewData["Title"] = "Yeni Ürün Ekle";
+    ViewData["Title"] = "Ürün Güncele";
 }
 
 <div class="row justify-content-center">
@@ -10,9 +10,11 @@
                 <h5 class="card-title">@ViewData["Title"]</h5>
             </div>
             <div class="card-body">
-                <form asp-action="createproduct" asp-controller="store" method="post">
+                <form asp-action="editproduct" asp-controller="store" asp-route-id="@Model.Id" method="post">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @Html.HiddenFor(m => m.Id)
 
                     <div class="form-floating mb-3">
                         <input asp-for="Name" class="form-control" />
@@ -52,8 +54,11 @@
                         <label asp-for="CategoryId" class="form-label"></label>
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Ekle</button>
+                    <div class="form-check mb-3 form-switch">
+                        <input asp-for="Active" class="form-check-input" role="switch" />
+                        <label asp-for="Active" class="form-check-label"></label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Güncelle</button>
                 </form>
             </div>
         </div>

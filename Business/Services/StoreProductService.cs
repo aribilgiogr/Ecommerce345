@@ -55,6 +55,13 @@ namespace Business.Services
             return 0;
         }
 
+        public async Task<StoreProductDto?> GetStoreProductAsync(int productId)
+        {
+            var repo = unitOfWork.Repository<Product>();
+            var product = await repo.ReadByIdAsync(productId);
+            return product != null ? mapper.Map<StoreProductDto>(product) : null;
+        }
+
         public async Task<UpdateProductDto?> GetStoreProductForEditAsync(int productId, int storeId)
         {
             var repo = unitOfWork.Repository<Product>();

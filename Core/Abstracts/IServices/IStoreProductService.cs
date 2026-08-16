@@ -10,5 +10,6 @@ namespace Core.Abstracts.IServices
         Task<bool> UpdateProductAsync(UpdateProductDto updateProductDto, int storeId);
         Task<bool> DeleteProductAsync(int productId, int storeId);
         Task<UpdateProductDto?> GetStoreProductForEditAsync(int productId, int storeId);
+        Task<StoreProductDto?> GetStoreProductAsync(int productId);
     }
 }

@@ -1,0 +1,24 @@
+﻿@model StoreProductDto
+@{
+    ViewData["Title"] = "Ürün Detayı: " + Model.Name;
+}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card text-bg-light rounded-0">
+            <div class="card-header">
+                <h5>@Model.Name</h5>
+                <small class="card-text">@Model.BrandName | @Model.CategoryName</small>
+            </div>
+            <div class="card-body">
+                <dl>
+                    <dt>Açıklama</dt>
+                    <dd>@Model.Description</dd>
+                    <dt>Fiyat</dt>
+                    <dd>@Model.Price.ToString("C")</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>

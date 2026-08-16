@@ -99,6 +99,22 @@ namespace Data.Contexts
             builder.Entity<AppUser>()
                 .Navigation(u => u.StoreProfile)
                 .AutoInclude();
+
+            builder.Entity<Product>()
+                .Navigation(p => p.Category)
+                .AutoInclude();
+
+            builder.Entity<Product>()
+                .Navigation(p => p.Brand)
+                .AutoInclude();
+
+            builder.Entity<Product>()
+                .Navigation(p => p.Images)
+                .AutoInclude();
+
+            builder.Entity<Product>()
+                .Navigation(p => p.Features)
+                .AutoInclude();
             #endregion
         }
     }
