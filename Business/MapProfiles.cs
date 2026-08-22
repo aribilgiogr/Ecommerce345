@@ -12,6 +12,8 @@ namespace Business
             CreateMap<CreateProductDto, Product>();
             CreateMap<CreateCategoryDto, Category>();
             CreateMap<CreateBrandDto, Brand>();
+            CreateMap<CreateProductImageDto, ProductImage>();
+            CreateMap<CreateProductFeatureDto, ProductFeature>();
 
             // Entity -> ListDto
             CreateMap<Product, StoreProductListDto>()

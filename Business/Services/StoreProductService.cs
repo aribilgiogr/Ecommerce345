@@ -21,6 +21,55 @@ namespace Business.Services
             this.userManager = userManager;
         }
 
+        public async Task<bool> AddProductFeatureAsync(int storeId, int productId, CreateProductFeatureDto model)
+        {
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            var featureRepo = unitOfWork.Repository<ProductFeature>();
+            var feature = mapper.Map<ProductFeature>(model);
+            feature.ProductId = productId;
+            feature.DisplayOrder = 999;
+            await featureRepo.CreateOneAsync(feature);
+            int rows = await unitOfWork.CommitAsync();
+            return rows > 0;
+        }
+
+        public async Task<bool> AddProductImageAsync(int storeId, int productId, CreateProductImageDto model, string wwwroot)
+        {
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            if (model.File == null || model.File.Length == 0) return false;
+
+            string uploadFolder = Path.Combine(wwwroot, "uploads", $"store_{storeId}");
+            if (!Directory.Exists(uploadFolder))
+            {
+                Directory.CreateDirectory(uploadFolder);
+            }
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
+            string filePath = Path.Combine(uploadFolder, uniqueFileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await model.File.CopyToAsync(fileStream);
+            }
+            string imageUrl = $"/uploads/store_{storeId}/{uniqueFileName}";
+
+            var imageRepo = unitOfWork.Repository<ProductImage>();
+            var image = new ProductImage
+            {
+                ProductId = productId,
+                ImageUrl = imageUrl,
+                DisplayOrder = 999
+            };
+
+            await imageRepo.CreateOneAsync(image);
+            int rows = await unitOfWork.CommitAsync();
+            return rows > 0;
+        }
+
         public async Task<bool> CreateProductAsync(CreateProductDto createProductDto, int storeId)
         {
             var product = mapper.Map<Product>(createProductDto);
@@ -41,6 +90,16 @@ namespace Business.Services
             return rows > 0;
         }
 
+        public Task<bool> DeleteProductFeatureAsync(int storeId, int productId, int featureId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteProductImageAsync(int storeId, int productId, int imageId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> GetCurrentStoreIdAsync(string user_id)
         {
             var user = await userManager.FindByIdAsync(user_id);
@@ -53,6 +112,16 @@ namespace Business.Services
                 }
             }
             return 0;
+        }
+
+        public Task<IEnumerable<ProductFeatureDto>> GetProductFeaturesAsync(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ProductImageDto>> GetProductImagesAsync(int productId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<StoreProductDto?> GetStoreProductAsync(int productId)
@@ -86,6 +155,16 @@ namespace Business.Services
             repo.UpdateOne(product);
             int rows = await unitOfWork.CommitAsync();
             return rows > 0;
+        }
+
+        public Task<bool> UpdateProductFeatureDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> featureOrders)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateProductImageDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> imageOrders)
+        {
+            throw new NotImplementedException();
         }
     }
 }
