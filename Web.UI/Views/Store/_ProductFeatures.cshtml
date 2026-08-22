@@ -1,0 +1,37 @@
+﻿@using Core.Abstracts.IServices
+@model (int,int)
+@inject IStoreProductService storeService
+@{
+    int storeId = Model.Item1;
+    int productId = Model.Item2;
+    var features = await storeService.GetProductFeaturesAsync(storeId, productId);
+}
+
+@if (features != null && features.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sıra No</th>
+                <th>İsim</th>
+                <th>Değer</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var feat in features)
+            {
+                <tr>
+                    <td>@feat.DisplayOrder</td>
+                    <td>@feat.Name</td>
+                    <td>@feat.Value</td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">Bu ürüne ait henüz özellik eklenmemiştir!</div>
+}

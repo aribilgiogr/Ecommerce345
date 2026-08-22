@@ -90,14 +90,34 @@ namespace Business.Services
             return rows > 0;
         }
 
-        public Task<bool> DeleteProductFeatureAsync(int storeId, int productId, int featureId)
+        public async Task<bool> DeleteProductFeatureAsync(int storeId, int productId, int featureId)
         {
-            throw new NotImplementedException();
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            var featureRepo = unitOfWork.Repository<ProductFeature>();
+            var feature = await featureRepo.ReadByIdAsync(featureId);
+            if (feature == null || feature.ProductId != productId) return false;
+
+            featureRepo.DeleteOne(feature);
+            int rows = await unitOfWork.CommitAsync();
+            return rows > 0;
         }
 
-        public Task<bool> DeleteProductImageAsync(int storeId, int productId, int imageId)
+        public async Task<bool> DeleteProductImageAsync(int storeId, int productId, int imageId)
         {
-            throw new NotImplementedException();
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            var imageRepo = unitOfWork.Repository<ProductImage>();
+            var image = await imageRepo.ReadByIdAsync(imageId);
+            if (image == null || image.ProductId != productId) return false;
+
+            imageRepo.DeleteOne(image);
+            int rows = await unitOfWork.CommitAsync();
+            return rows > 0;
         }
 
         public async Task<int> GetCurrentStoreIdAsync(string user_id)
@@ -114,14 +134,26 @@ namespace Business.Services
             return 0;
         }
 
-        public Task<IEnumerable<ProductFeatureDto>> GetProductFeaturesAsync(int productId)
+        public async Task<IEnumerable<ProductFeatureDto>> GetProductFeaturesAsync(int storeId, int productId)
         {
-            throw new NotImplementedException();
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId == storeId) return [];
+
+            var featureRepo = unitOfWork.Repository<ProductFeature>();
+            var features = await featureRepo.ReadManyAsync(x => x.ProductId == productId);
+            return mapper.Map<IEnumerable<ProductFeatureDto>>(features.OrderBy(x => x.DisplayOrder));
         }
 
-        public Task<IEnumerable<ProductImageDto>> GetProductImagesAsync(int productId)
+        public async Task<IEnumerable<ProductImageDto>> GetProductImagesAsync(int storeId, int productId)
         {
-            throw new NotImplementedException();
+            var productRepo = unitOfWork.Repository<Product>();
+            var product = await productRepo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId == storeId) return [];
+
+            var imageRepo = unitOfWork.Repository<ProductImage>();
+            var images = await imageRepo.ReadManyAsync(x => x.ProductId == productId);
+            return mapper.Map<IEnumerable<ProductImageDto>>(images.OrderBy(x => x.DisplayOrder));
         }
 
         public async Task<StoreProductDto?> GetStoreProductAsync(int productId)
@@ -157,14 +189,62 @@ namespace Business.Services
             return rows > 0;
         }
 
-        public Task<bool> UpdateProductFeatureDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> featureOrders)
+        public async Task<bool> UpdateProductFeatureDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> featureOrders)
         {
-            throw new NotImplementedException();
+            var repo = unitOfWork.Repository<Product>();
+            var product = await repo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            var featureRepo = unitOfWork.Repository<ProductFeature>();
+            var features = await featureRepo.ReadManyAsync(f => f.ProductId == productId);
+            bool isUpdated = false;
+
+            foreach (var feature in features)
+            {
+                if (featureOrders.TryGetValue(feature.Id, out int newOrder))
+                {
+                    feature.DisplayOrder = newOrder;
+                    featureRepo.UpdateOne(feature);
+                    isUpdated = true;
+                }
+            }
+
+            if (isUpdated)
+            {
+                int rows = await unitOfWork.CommitAsync();
+                return rows > 0;
+            }
+
+            return false;
         }
 
-        public Task<bool> UpdateProductImageDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> imageOrders)
+        public async Task<bool> UpdateProductImageDisplayOrderAsync(int storeId, int productId, Dictionary<int, int> imageOrders)
         {
-            throw new NotImplementedException();
+            var repo = unitOfWork.Repository<Product>();
+            var product = await repo.ReadByIdAsync(productId);
+            if (product == null || product.StoreId != storeId) return false;
+
+            var imageRepo = unitOfWork.Repository<ProductImage>();
+            var images = await imageRepo.ReadManyAsync(f => f.ProductId == productId);
+            bool isUpdated = false;
+
+            foreach (var img in images)
+            {
+                if (imageOrders.TryGetValue(img.Id, out int newOrder))
+                {
+                    img.DisplayOrder = newOrder;
+                    imageRepo.UpdateOne(img);
+                    isUpdated = true;
+                }
+            }
+
+            if (isUpdated)
+            {
+                int rows = await unitOfWork.CommitAsync();
+                return rows > 0;
+            }
+
+            return false;
         }
     }
 }

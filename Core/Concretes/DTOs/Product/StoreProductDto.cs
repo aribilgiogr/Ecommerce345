@@ -8,6 +8,7 @@
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public string SKU { get; set; } = null!;
+        public int StoreId { get; set; }
         public int BrandId { get; set; }
         public string BrandName { get; set; } = null!;
         public int CategoryId { get; set; }

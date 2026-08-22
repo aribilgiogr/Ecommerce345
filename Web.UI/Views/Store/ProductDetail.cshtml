@@ -20,5 +20,22 @@
         </div>
     </div>
     <div class="col-md-6">
+        <div class="card text-bg-light rounded-0 mb-4">
+            <div class="card-header">
+                <h5 class="card-title">Ürün Görselleri</h5>
+            </div>
+            <div class="card-body">
+                <partial name="_ProductImages" model="(Model.StoreId, Model.Id)" />
+            </div>
+        </div>
+
+        <div class="card text-bg-light rounded-0">
+            <div class="card-header">
+                <h5 class="card-title">Ürün Özellikleri</h5>
+            </div>
+            <div class="card-body">
+                <partial name="_ProductFeatures" model="(Model.StoreId, Model.Id)" />
+            </div>
+        </div>
     </div>
 </div>
